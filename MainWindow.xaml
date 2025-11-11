@@ -63,8 +63,8 @@
             </Setter>
         </Style>
     </Window.Resources>
-    
-    
+
+
     <Grid x:Name="MainGrid" Background="#090910">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -124,14 +124,37 @@
                             <Button x:Name="AddControlChangeLinkButton" Style="{DynamicResource AddLinkButtonStyle}" Content="Add Control Change Link" Height="78" Width="150" Margin="4" Click="AddControlChangeLink_Click" Padding="2"/>
                         </StackPanel>
                     </Grid>
-                    <!--<Button Style="{DynamicResource AddLinkButtonStyle}" Content="Add Link" Height="80" HorizontalAlignment="Stretch" VerticalAlignment="Top" Click="AddLink_Click" Padding="2"/>-->
                 </StackPanel>
             </ScrollViewer>
             <Grid x:Name="Controls" Background="#1E1E1E" Grid.Column="1" Grid.Row="0">
-                
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <StackPanel Orientation="Vertical" Grid.Row="0">
+                    <StackPanel x:Name="ComPortHolder" Orientation="Vertical">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Label Content="COM Port:" Foreground="White" Margin="8" VerticalAlignment="Top" Grid.Column="0"/>
+                            <Button x:Name="RefreshComPortsButton" Content="Refresh" Style="{DynamicResource AddLinkButtonStyle}" Height="25" Width="60" Margin="8" VerticalAlignment="Center" HorizontalAlignment="Right" Click="RefreshComPorts_Click" Grid.Column="2"/>
+                        </Grid>
+                        <ComboBox x:Name="ComPortComboBox" Grid.Column="0" Grid.Row="0" Margin="8" Height="25" VerticalAlignment="Top" 
+                                  ItemsSource="{Binding AvailableComPorts}"
+                                  SelectedItem="{Binding SelectedComPort}"
+                                  Foreground="Black"/>
+                    </StackPanel>
+                    <Rectangle Height="1" Fill="LightGray" Margin="8"/>
+                </StackPanel>
+                <StackPanel x:Name="UploadDownloadHolder" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Row="2">
+                    <Button x:Name="UploadConfigButton" Content="Upload Config" Style="{DynamicResource AddLinkButtonStyle}" Height="30" Width="100" Margin="8" Click="UploadConfig_Click"/>
+                    <Button x:Name="DownloadConfigButton" Content="Download Config" Style="{DynamicResource AddLinkButtonStyle}" Height="30" Width="100" Margin="8" Click="DownloadConfig_Click"/>
+                </StackPanel>
             </Grid>
         </Grid>
     </Grid>
-
-    
 </Window>

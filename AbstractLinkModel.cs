@@ -10,7 +10,7 @@ namespace scriabinWPF
     {
         public byte MidiChannel { get; set; } // 1-16
         public byte Pitch { get; set; } // 0-127
-        public int DmxChannel { get; set; } // 1-512
+        public ushort DmxChannel { get; set; } // 1-512
 
         public AbstractLinkModel()
         {
@@ -18,5 +18,8 @@ namespace scriabinWPF
             Pitch = 60;
             DmxChannel = 1;
         }
+        public abstract byte[] Serialize();
+
+        internal abstract byte GetLinkType();
     }
 }

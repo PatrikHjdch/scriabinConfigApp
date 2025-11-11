@@ -43,11 +43,6 @@ namespace scriabinWPF
             MessageBox.Show("About This App Clicked");
         }
 
-        private void AddLink_Click(object sender, RoutedEventArgs e)
-        {
-            (this.DataContext as MainViewModel)?.AddLink();
-        }
-
         private void OnDeleteLinkClicked(object sender, EventArgs e)
         {
             if (sender is NoteLinkView noteLinkView)
@@ -85,6 +80,24 @@ namespace scriabinWPF
         private void AddControlChangeLink_Click(object sender, RoutedEventArgs e)
         {
             (this.DataContext as MainViewModel)?.AddControlChangeLink();
+        }
+
+        private void RefreshComPorts_Click(object sender, RoutedEventArgs e)
+        {
+            (this.DataContext as MainViewModel)?.RefreshComPorts();
+        }
+
+        private void UploadConfig_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Upload Config Clicked");
+        }
+        private void DownloadConfig_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Download Config Clicked");
+        }
+        private void UpdateComPort_Click(object sender, RoutedEventArgs e)
+        {
+            (this.DataContext as MainViewModel)?.UpdateComPort();
         }
     }
 }

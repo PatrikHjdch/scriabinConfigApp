@@ -16,5 +16,21 @@ namespace scriabinWPF
             DmxValue = 255;
             UsesVelocity = false;
         }
+
+        public override byte[] Serialize()
+        {
+            return
+            [
+                (byte)(DmxChannel >> 8 & 0xFF),
+                (byte)(DmxChannel & 0xFF),
+                UsesVelocity ? (byte)1 : (byte)0,
+                DmxValue
+            ];
+        }
+
+        internal override byte GetLinkType()
+        {
+            return 1;
+        }
     }
 }

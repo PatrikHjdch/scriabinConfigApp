@@ -13,7 +13,6 @@
     <None Remove="assets\notelink.png" />
     <None Remove="assets\noteofflink.png" />
     <None Remove="assets\noteonlink.png" />
-    <None Remove="notelink.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -33,10 +32,7 @@
 
   <ItemGroup>
     <PackageReference Include="Prism.Core" Version="9.0.537" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Resource Include="notelink.png" />
+    <PackageReference Include="System.IO.Ports" Version="9.0.11" />
   </ItemGroup>
 
 </Project>

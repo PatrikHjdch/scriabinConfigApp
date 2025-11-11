@@ -8,10 +8,18 @@ namespace scriabinWPF
 {
     class ControlChangeLinkModel : AbstractLinkModel
     {
-        public byte DmxValue { get; set; } // 0-255
-        public ControlChangeLinkModel() : base()
+        public ControlChangeLinkModel() : base() { }
+
+        public override byte[] Serialize()
         {
-            DmxValue = 255;
+            return [
+                (byte)(DmxChannel >> 8 & 0xFF),
+                (byte)(DmxChannel & 0xFF),
+                ];
+        }
+        internal override byte GetLinkType()
+        {
+            return 3;
         }
     }
 }
