@@ -1,0 +1,39 @@
+﻿<UserControl x:Class="scriabinWPF.NumericUpDown"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:scriabinWPF"
+             mc:Ignorable="d" 
+             
+             d:DesignHeight="20" d:DesignWidth="120">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="15"/>
+        </Grid.ColumnDefinitions>
+
+        <TextBox x:Name="NumericTextBox" VerticalAlignment="Top" Margin="0" Height="20" GotKeyboardFocus="OnGotKeyboardFocus" LostKeyboardFocus="OnLostKeyboardFocus" KeyDown="OnKeyDown" DataContextChanged="OnDataContextChanged"/>
+        <Button x:Name="UpButton"
+                Grid.Column="1"
+                VerticalAlignment="Top"
+                HorizontalAlignment="Center"
+                FontSize="5"
+                Height="10"
+                Width="15"
+                Click="UpButton_Click">
+            ▲
+        </Button>
+        <Button x:Name="DownButton"
+                Grid.Column="1"
+                Margin="0, 10, 0, 0"
+                FontSize="5"
+                VerticalAlignment="Top"
+                HorizontalAlignment="Center"
+                Height="10"
+                Width="15"
+                Click="DownButton_Click">
+            ▼
+        </Button>
+    </Grid>
+</UserControl>
