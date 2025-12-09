@@ -14,9 +14,9 @@ namespace scriabinWPF
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainView : Window
+    public partial class MainWindow : Window
     {
-        public MainView()
+        public MainWindow()
         {
             InitializeComponent();
             this.DataContext = new MainViewModel();
@@ -89,15 +89,38 @@ namespace scriabinWPF
 
         private void UploadConfig_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Upload Config Clicked");
+            (this.DataContext as MainViewModel)?.UploadMap();
         }
         private void DownloadConfig_Click(object sender, RoutedEventArgs e)
         {
             MessageBox.Show("Download Config Clicked");
         }
-        private void UpdateComPort_Click(object sender, RoutedEventArgs e)
+        private void UpdateComPort(object sender, RoutedEventArgs e)
         {
             (this.DataContext as MainViewModel)?.UpdateComPort();
+        }
+
+        private void TestConnection_Click(object sender, RoutedEventArgs e)
+        {
+            int response = (this.DataContext as MainViewModel)?.TestConnection() ?? -1;
+            switch (response)
+            {
+                case 0:
+                    MessageBox.Show("Connection successful.");
+                    break;
+                case 1:
+                    MessageBox.Show("Connection timed out.");
+                    break;
+                case 2:
+                    MessageBox.Show("Device returned an error.");
+                    break;
+                case 3:
+                    MessageBox.Show("Unexpected response from device.");
+                    break;
+                default:
+                    MessageBox.Show("Unknown error.");
+                    break;
+            }
         }
     }
 }

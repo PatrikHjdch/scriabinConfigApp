@@ -5,27 +5,34 @@ using System.IO.Ports;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace scriabinWPF
 {
     internal class Communicator
     {
-        private static readonly Dictionary<string, string> IncomingMessages = new Dictionary<string, string>
+        private static readonly Dictionary<string, byte> IncomingMessages = new Dictionary<string, byte>
         {
-            {"Hello", "HEL" },
-            {"Acknowledgement", "ACK" },
-            {"Error", "ERR" },
+            {"HELLO", 0x01 },
+            {"ACKNOWLEDGEMENT", 0x02 },
+            {"ERROR", 0x03 },
+            {"ERROR_LINKS_OUT_OF_ORDER", 0x01 },
         };
 
-        private static readonly Dictionary<string, string> OutgoingMessages = new Dictionary<string, string>
+        private static readonly Dictionary<byte, string> ErrorStrings = new Dictionary<byte, string>
         {
-            {"Hello", "HEL" },
-            {"Acknowledgment", "ACK" },
-            {"StartUpload", "STA" },
-            {"EndUpload", "END" },
-            {"Type", "TYP" },
-            {"Channel", "CHA" },
-            {"Pitch", "PIT" },
+            {0x01, "Links are being sent out of order." },
+        };
+
+        private static readonly Dictionary<string, byte> OutgoingMessages = new Dictionary<string, byte>
+        {
+            {"HELLO", 0x01 },
+            {"ACKNOWLEDGEMENT", 0x02 },
+            {"START_UPLOAD", 0x03 },
+            {"END_UPLOAD", 0x04 },
+            {"CHANNEL", 0x05 },
+            {"TYPE", 0x06 },
+            {"PITCH", 0x07 },
         };
 
         private SerialPort? ComPort;
@@ -45,10 +52,10 @@ namespace scriabinWPF
                 ComPort = null;
                 return;
             }
-            ComPort = new SerialPort(PortName, 115200, Parity.None, 8, StopBits.One)
+            ComPort = new SerialPort(PortName, 115200)
             {
-                ReadTimeout = 2000,
-                WriteTimeout = 2000
+                ReadTimeout = -1,
+                WriteTimeout = -1
             };
         }
         public void Open()
@@ -56,7 +63,7 @@ namespace scriabinWPF
             if (ComPort == null) throw new InvalidOperationException("COM port is not initialized.");
             if (!ComPort.IsOpen)
             {
-                ComPort.Open();
+                    ComPort.Open();
             }
         }
         public void Close()
@@ -67,13 +74,12 @@ namespace scriabinWPF
                 ComPort.Close();
             }
         }
-        private void SendMessage(string Message)
+        private void SendMessage(byte[] data)
         {
             if (ComPort == null) throw new InvalidOperationException("COM port is not initialized.");
             if (!ComPort.IsOpen)
                 throw new InvalidOperationException("COM port is not open.");
 
-            byte[] data = Encoding.ASCII.GetBytes(Message);
             ComPort.Write(data, 0, data.Length);
         }
 
@@ -82,19 +88,20 @@ namespace scriabinWPF
             if (ComPort == null) throw new InvalidOperationException("COM port is not initialized.");
             if (!ComPort.IsOpen)
                 throw new InvalidOperationException("COM port is not open.");
-            string response = string.Empty;
+            byte[] response = new byte[2];
             while (true)
             {
                 try
                 {
-                    response = ComPort.ReadLine().Trim();
-                    if (response == IncomingMessages["Acknowledgement"])
+                    response[0] = (byte)ComPort.ReadByte();
+                    if (response[0] == IncomingMessages["ACKNOWLEDGEMENT"])
                     {
                         return;
                     }
-                    else if (response.StartsWith(IncomingMessages["Error"]))
+                    else if (response[0] == IncomingMessages["ERROR"])
                     {
-                        throw new InvalidOperationException("Received error from device:\n" + response);
+                        response[1] = (byte)ComPort.ReadByte();
+                        throw new InvalidOperationException("Received error from device:\n" + ErrorStrings[response[1]]);
                     }
                 }
                 catch (TimeoutException)
@@ -106,56 +113,138 @@ namespace scriabinWPF
 
         public void UploadMap(ObservableCollection<AbstractLinkModel> Links)
         {
-            if (Links == null) throw new ArgumentNullException(nameof(Links));
-            if (ComPort == null) throw new InvalidOperationException("COM port is not initialized.");
+            Logger logger = new Logger("UploadMap");
+            logger.Log("Starting map upload...");
+            if (Links == null) {
+                logger.Log("Links collection is null.");
+                throw new ArgumentNullException(nameof(Links));
+            }
+            if (ComPort == null) {
+                logger.Log("COM port is not initialized.");
+                throw new InvalidOperationException("COM port is not initialized.");
+            }
             int type = -1;
             int channel = -1;
             int pitch = -1;
             List<AbstractLinkModel> linkList = Links.ToList();
             linkList.Sort(CompareLinks);
-            Open();
-            SendMessage(OutgoingMessages["StartUpload"]);
-            AwaitAcknowledgment();
-
-            foreach (AbstractLinkModel link in linkList)
+            try
             {
-                if (type < link.GetLinkType())
-                {
-                    SendMessage(OutgoingMessages["Type"] + " " + link.GetLinkType().ToString());
-                    AwaitAcknowledgment();
-                    type = link.GetLinkType();
-                    channel = -1;
-                    pitch = -1;
-                }   
-                if (channel < link.MidiChannel)
-                {
-                    SendMessage(OutgoingMessages["Channel"] + " " + link.MidiChannel.ToString());
-                    AwaitAcknowledgment();
-                    channel = link.MidiChannel;
-                    pitch = -1;
-                }
-                if (pitch < link.Pitch)
-                {
-                    SendMessage(OutgoingMessages["Pitch"] + " " + link.Pitch.ToString());
-                    AwaitAcknowledgment();
-                    pitch = link.Pitch;
-                }
-                byte[] serializedLink = link.Serialize();
-                ComPort.Write(serializedLink, 0, serializedLink.Length);
+                logger.Log("Opening COM port...");
+                Open();
+                logger.Log("Sending START_UPLOAD message...");
+                SendMessage(new byte[] { OutgoingMessages["START_UPLOAD"] });
+                logger.Log("Awaiting acknowledgment...");
                 AwaitAcknowledgment();
-            }
+                logger.Log("ACK from device. Uploading links...");
 
-            SendMessage(OutgoingMessages["EndUpload"]);
-            AwaitAcknowledgment();
-            Close();
+                foreach (AbstractLinkModel link in linkList)
+                {
+                    if (channel < link.MidiChannel - 1)
+                    {
+                        logger.Log("Updating MIDI channel to " + link.MidiChannel);
+                        SendMessage(new byte[] { OutgoingMessages["CHANNEL"], (byte)(link.MidiChannel - 1) });
+                        logger.Log("Awaiting acknowledgment...");
+                        AwaitAcknowledgment();
+                        logger.Log("ACK from device.");
+                        channel = link.MidiChannel - 1;
+                        type = -1;
+                        pitch = -1;
+                    }
+                    if (type < link.GetLinkType())
+                    {
+                        logger.Log("Updating link type to " + link.GetLinkType());
+                        SendMessage(new byte[] { OutgoingMessages["TYPE"], (byte)link.GetLinkType() });
+                        logger.Log("Awaiting acknowledgment...");
+                        AwaitAcknowledgment();
+                        logger.Log("ACK from device.");
+                        type = link.GetLinkType();
+                        pitch = -1;
+                    }
+                    if (pitch < link.Pitch)
+                    {
+                        logger.Log("Updating pitch to " + link.Pitch);
+                        SendMessage(new byte[] { OutgoingMessages["PITCH"], (byte)link.Pitch });
+                        logger.Log("Awaiting acknowledgment...");
+                        AwaitAcknowledgment();
+                        logger.Log("ACK from device.");
+                        pitch = link.Pitch;
+                    }
+                    logger.Log("Sending link data...");
+                    SendMessage(link.Serialize());
+                    logger.Log("Awaiting acknowledgment...");
+                    AwaitAcknowledgment();
+                    logger.Log("ACK from device.");
+                }
+                logger.Log("All links uploaded. Sending END_UPLOAD message...");
+                SendMessage(new byte[] { OutgoingMessages["END_UPLOAD"] });
+                logger.Log("Awaiting final acknowledgment...");
+                AwaitAcknowledgment();
+                logger.Log("ACK from device. Map upload completed successfully.");
+                logger.Log("Closing COM port...");
+                Close();
+                logger.Dispose();
+            }
+            catch (InvalidOperationException ex)
+            {
+                MessageBox.Show("Upload failed: " + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                Close();
+                logger.Dispose();
+                throw;
+            }
         }
         private int CompareLinks(AbstractLinkModel a, AbstractLinkModel b)
         {
-           if (a.GetLinkType() != b.GetLinkType()) return a.GetLinkType() - b.GetLinkType();
             if (a.MidiChannel != b.MidiChannel) return a.MidiChannel - b.MidiChannel;
+            if (a.GetLinkType() != b.GetLinkType()) return a.GetLinkType() - b.GetLinkType();
             if (a.Pitch != b.Pitch) return a.Pitch - b.Pitch;
             if (a.DmxChannel != b.DmxChannel) return a.DmxChannel - b.DmxChannel;
             return 0;
+        }
+
+        internal int TestConnection() {
+            if (ComPort == null) throw new InvalidOperationException("COM port is not initialized.");
+            try
+            {
+                Open();
+                SendMessage(new byte[] { OutgoingMessages["HELLO"] });
+                byte response = (byte)ComPort.ReadByte();
+                if (response == IncomingMessages["HELLO"])
+                {
+                    Close();
+                    return 0; // Success
+                }
+                else if (response == IncomingMessages["ERROR"])
+                {
+                    Close();
+                    return 2; // Device returned error
+                }
+                else
+                {
+                    Close();
+                    return 3; // Unexpected response
+                }
+            }
+            catch (System.IO.IOException ex)
+            {
+                MessageBox.Show("System.IO Exception: " + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                Close();
+                return 2;
+            }
+            catch (TimeoutException)
+            {
+                Close();
+                return 1; // Timeout
+            }
+        }
+
+        internal string GetConnectionStatus()
+        {
+            if (ComPort == null)
+            {
+                return "Uninitialized";
+            }
+            return ComPort.IsOpen ? "Open" : "Closed";
         }
     }
 }

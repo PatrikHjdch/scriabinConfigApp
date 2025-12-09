@@ -27,6 +27,7 @@ namespace scriabinWPF
         {
             return
             [
+                0x10,
                 (byte)(DmxChannel >> 8 & 0xFF),
                 (byte)(DmxChannel & 0xFF),
                 UsesVelocity ? (byte)1 : (byte)0,

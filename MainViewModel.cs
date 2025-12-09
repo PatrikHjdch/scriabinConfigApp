@@ -24,6 +24,11 @@ namespace scriabinWPF
             }
         }
 
+        public string ConnectionStatus
+        {
+            get { return model.GetConnectionStatus(); }
+        }
+
         public MainViewModel()
         {
             model = new MainModel();
@@ -66,7 +71,17 @@ namespace scriabinWPF
 
         internal void UpdateComPort()
         {
-            model.communicator.SetComPort(model.SelectedComPort);
+            model.UpdateComPort();
+        }
+
+        internal int TestConnection()
+        {
+            return model.TestConnection();
+        }
+
+        internal void UploadMap()
+        {
+            model.UploadMap();
         }
     }
 }

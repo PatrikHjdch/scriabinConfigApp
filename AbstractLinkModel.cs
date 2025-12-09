@@ -19,7 +19,6 @@ namespace scriabinWPF
             DmxChannel = 1;
         }
         public abstract byte[] Serialize();
-
         internal abstract byte GetLinkType();
     }
 }
