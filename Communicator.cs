@@ -16,12 +16,12 @@ namespace scriabinWPF
             {"HELLO", 0x01 },
             {"ACKNOWLEDGEMENT", 0x02 },
             {"ERROR", 0x03 },
+            {"ERROR_LINKS_OUT_OF_ORDER", 0x01 },
         };
 
         private static readonly Dictionary<byte, string> ErrorStrings = new Dictionary<byte, string>
         {
             {0x01, "Links are being sent out of order." },
-            {0x02, "Error when writing to EEPROM via I2C." },
         };
 
         private static readonly Dictionary<string, byte> OutgoingMessages = new Dictionary<string, byte>
@@ -190,6 +190,7 @@ namespace scriabinWPF
                 MessageBox.Show("Upload failed: " + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 Close();
                 logger.Dispose();
+                throw;
             }
         }
         private int CompareLinks(AbstractLinkModel a, AbstractLinkModel b)
