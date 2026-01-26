@@ -43,45 +43,6 @@ namespace scriabinWPF
             MessageBox.Show("About This App Clicked");
         }
 
-        private void OnDeleteLinkClicked(object sender, EventArgs e)
-        {
-            if (sender is NoteLinkView noteLinkView)
-            {
-                (this.DataContext as MainViewModel)?.RemoveLink(noteLinkView.DataContext as AbstractLinkModel);
-            }
-            else if (sender is NoteOnLinkView noteOnLinkView)
-            {
-                (this.DataContext as MainViewModel)?.RemoveLink(noteOnLinkView.DataContext as AbstractLinkModel);
-            }
-            else if (sender is NoteOffLinkView noteOffLinkView)
-            {
-                (this.DataContext as MainViewModel)?.RemoveLink(noteOffLinkView.DataContext as AbstractLinkModel);
-            }
-            else if (sender is ControlChangeLinkView controlChangeLinkView)
-            {
-                (this.DataContext as MainViewModel)?.RemoveLink(controlChangeLinkView.DataContext as AbstractLinkModel);
-            }
-        }
-        private void AddNoteLink_Click(object sender, RoutedEventArgs e)
-        {
-            (this.DataContext as MainViewModel)?.AddNoteLink();
-        }
-
-        private void AddNoteOnLink_Click(object sender, RoutedEventArgs e)
-        {
-            (this.DataContext as MainViewModel)?.AddNoteOnLink();
-        }
-
-        private void AddNoteOffLink_Click(object sender, RoutedEventArgs e)
-        {
-            (this.DataContext as MainViewModel)?.AddNoteOffLink();
-        }
-
-        private void AddControlChangeLink_Click(object sender, RoutedEventArgs e)
-        {
-            (this.DataContext as MainViewModel)?.AddControlChangeLink();
-        }
-
         private void RefreshComPorts_Click(object sender, RoutedEventArgs e)
         {
             (this.DataContext as MainViewModel)?.RefreshComPorts();

@@ -10,7 +10,8 @@ namespace scriabinWPF
 {
     public class MainModel
     {
-        public ObservableCollection<AbstractLinkModel> Links { get; set; }
+        //public ObservableCollection<AbstractLinkModel> Links { get; set; }
+        public ObservableCollection<LinkProfileTabModel> Tabs { get; set; }
         public ObservableCollection<string> AvailableComPorts { get; set; }
         internal Communicator communicator { get; set; }
         public string SelectedComPort { get; set; }
@@ -18,7 +19,13 @@ namespace scriabinWPF
         public MainModel()
         {
             communicator = new Communicator();
-            Links = new ObservableCollection<AbstractLinkModel>();
+            //Links = new ObservableCollection<AbstractLinkModel>();
+            Tabs = new ObservableCollection<LinkProfileTabModel>
+            {
+                new LinkProfileTabModel(1),
+                new LinkProfileTabModel(2),
+                new LinkProfileTabModel(3)
+            };
             AvailableComPorts = new ObservableCollection<string>();
             RefreshComPorts();
             SelectedComPort = AvailableComPorts.FirstOrDefault() ?? string.Empty;
@@ -48,7 +55,7 @@ namespace scriabinWPF
 
         internal void UploadMap()
         {
-            communicator.UploadMap(Links);
+            //communicator.UploadMap(Tabs);
         }
     }
 }

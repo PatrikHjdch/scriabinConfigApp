@@ -34,39 +34,23 @@ namespace scriabinWPF
             model = new MainModel();
         }
         public event PropertyChangedEventHandler? PropertyChanged;
+
+        public ObservableCollection<LinkProfileTabViewModel> Tabs
+        {
+            get
+            {
+                var tabViewModels = new ObservableCollection<LinkProfileTabViewModel>();
+                foreach (var tabModel in model.Tabs)
+                {
+                    tabViewModels.Add(new LinkProfileTabViewModel(tabModel));
+                }
+                return tabViewModels;
+            }
+        }
+
         public void RefreshComPorts()
         {
             model.RefreshComPorts();
-        }
-
-        public ObservableCollection<AbstractLinkModel> Links
-        {
-            get { return model.Links; }
-        }
-
-        public void RemoveLink(AbstractLinkModel link)
-        {
-            model.Links.Remove(link);
-        }
-
-        internal void AddNoteLink()
-        {
-            model.Links.Add(new NoteLinkModel());
-        }
-
-        internal void AddNoteOnLink()
-        {
-            model.Links.Add(new NoteOnLinkModel());
-        }
-
-        internal void AddNoteOffLink()
-        {
-            model.Links.Add(new NoteOffLinkModel());
-        }
-
-        internal void AddControlChangeLink()
-        {
-            model.Links.Add(new ControlChangeLinkModel());
         }
 
         internal void UpdateComPort()
