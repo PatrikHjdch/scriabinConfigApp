@@ -7,7 +7,7 @@ using System.Windows.Data;
 
 namespace scriabinWPF
 {
-    class NoteOnLinkModel : AbstractLinkModel
+    public class NoteOnLinkModel : AbstractLinkModel
     {
         public byte DmxValue { get; set; } // 0-255
         public bool UsesVelocity { get; set; } // if true, use note velocity for DmxValueOn
@@ -31,7 +31,20 @@ namespace scriabinWPF
 
         internal override byte GetLinkType()
         {
-            return 1;
+            return (byte)LinkType.NOTE_ON;
+        }
+
+        public override NoteOnLinkModel Copy()
+        {
+            NoteOnLinkModel copy = new()
+            {
+                MidiChannel = MidiChannel,
+                Pitch = Pitch,
+                DmxChannel = DmxChannel,
+                DmxValue = DmxValue,
+                UsesVelocity = UsesVelocity
+            };
+            return copy;
         }
     }
 }

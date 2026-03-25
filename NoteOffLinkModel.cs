@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace scriabinWPF
 {
-    class NoteOffLinkModel : AbstractLinkModel
+    public class NoteOffLinkModel : AbstractLinkModel
     {
         public byte DmxValue { get; set; } // 0-255
         public NoteOffLinkModel() : base()
@@ -25,7 +25,19 @@ namespace scriabinWPF
         }
         internal override byte GetLinkType()
         {
-            return 2;
+            return (byte)LinkType.NOTE_OFF;
+        }
+
+        public override NoteOffLinkModel Copy()
+        {
+            NoteOffLinkModel copy = new()
+            {
+                MidiChannel = MidiChannel,
+                Pitch = Pitch,
+                DmxChannel = DmxChannel,
+                DmxValue = DmxValue
+            };
+            return copy;
         }
     }
 }

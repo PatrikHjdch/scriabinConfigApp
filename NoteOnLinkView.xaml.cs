@@ -20,39 +20,39 @@ namespace scriabinWPF
     /// </summary>
     public partial class NoteOnLinkView : UserControl
     {
-        private Binding midiChannelBinding = new Binding("MidiChannel")
-        {
-            Mode = BindingMode.TwoWay,
-            UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
-        };
-        private Binding pitchBinding = new Binding("Pitch")
-        {
-            Mode = BindingMode.TwoWay,
-            UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
-        };
-        private Binding dmxChannelBinding = new Binding("DmxChannel")
-        {
-            Mode = BindingMode.TwoWay,
-            UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
-        };
-        private Binding dmxValueBinding = new Binding("DmxValue")
-        {
-            Mode = BindingMode.TwoWay,
-            UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
-        };
-        private Binding useVelocityBinding = new Binding("UsesVelocity")
-        {
-            Mode = BindingMode.TwoWay,
-            UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
-        };
+        //private Binding midiChannelBinding = new Binding("MidiChannel")
+        //{
+        //    Mode = BindingMode.TwoWay,
+        //    UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
+        //};
+        //private Binding pitchBinding = new Binding("Pitch")
+        //{
+        //    Mode = BindingMode.TwoWay,
+        //    UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
+        //};
+        //private Binding dmxChannelBinding = new Binding("DmxChannel")
+        //{
+        //    Mode = BindingMode.TwoWay,
+        //    UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
+        //};
+        //private Binding dmxValueBinding = new Binding("DmxValue")
+        //{
+        //    Mode = BindingMode.TwoWay,
+        //    UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
+        //};
+        //private Binding useVelocityBinding = new Binding("UsesVelocity")
+        //{
+        //    Mode = BindingMode.TwoWay,
+        //    UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
+        //};
         public NoteOnLinkView()
         {
             InitializeComponent();
-            MidiChannelUpDown.SetBinding(TextBox.TextProperty, midiChannelBinding);
-            PitchUpDown.SetBinding(TextBox.TextProperty, pitchBinding);
-            DmxChannelUpDown.SetBinding(TextBox.TextProperty, dmxChannelBinding);
-            DmxValueUpDown.SetBinding(TextBox.TextProperty, dmxValueBinding);
-            UseVelocityCheckBox.SetBinding(CheckBox.IsCheckedProperty, useVelocityBinding);
+            //MidiChannelUpDown.SetBinding(TextBox.TextProperty, midiChannelBinding);
+            //PitchUpDown.SetBinding(TextBox.TextProperty, pitchBinding);
+            //DmxChannelUpDown.SetBinding(TextBox.TextProperty, dmxChannelBinding);
+            //DmxValueUpDown.SetBinding(TextBox.TextProperty, dmxValueBinding);
+            //UseVelocityCheckBox.SetBinding(CheckBox.IsCheckedProperty, useVelocityBinding);
             UseVelocityCheckBox.Checked += (s, e) => { DmxValueUpDown.IsEnabled = false; };
             UseVelocityCheckBox.Unchecked += (s, e) => { DmxValueUpDown.IsEnabled = true; };
         }

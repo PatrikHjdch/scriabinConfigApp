@@ -20,33 +20,33 @@ namespace scriabinWPF
     /// </summary>
     public partial class NoteOffLinkView : UserControl
     {
-        private Binding midiChannelBinding = new Binding("MidiChannel")
-        {
-            Mode = BindingMode.TwoWay,
-            UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
-        };
-        private Binding pitchBinding = new Binding("Pitch")
-        {
-            Mode = BindingMode.TwoWay,
-            UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
-        };
-        private Binding dmxChannelBinding = new Binding("DmxChannel")
-        {
-            Mode = BindingMode.TwoWay,
-            UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
-        };
-        private Binding dmxValueBinding = new Binding("DmxValue")
-        {
-            Mode = BindingMode.TwoWay,
-            UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
-        };
+        //private Binding midiChannelBinding = new Binding("MidiChannel")
+        //{
+        //    Mode = BindingMode.TwoWay,
+        //    UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
+        //};
+        //private Binding pitchBinding = new Binding("Pitch")
+        //{
+        //    Mode = BindingMode.TwoWay,
+        //    UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
+        //};
+        //private Binding dmxChannelBinding = new Binding("DmxChannel")
+        //{
+        //    Mode = BindingMode.TwoWay,
+        //    UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
+        //};
+        //private Binding dmxValueBinding = new Binding("DmxValue")
+        //{
+        //    Mode = BindingMode.TwoWay,
+        //    UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
+        //};
         public NoteOffLinkView()
         {
             InitializeComponent();
-            MidiChannelUpDown.SetBinding(TextBox.TextProperty, midiChannelBinding);
-            PitchUpDown.SetBinding(TextBox.TextProperty, pitchBinding);
-            DmxChannelUpDown.SetBinding(TextBox.TextProperty, dmxChannelBinding);
-            DmxValueUpDown.SetBinding(TextBox.TextProperty, dmxValueBinding);
+            //MidiChannelUpDown.SetBinding(TextBox.TextProperty, midiChannelBinding);
+            //PitchUpDown.SetBinding(TextBox.TextProperty, pitchBinding);
+            //DmxChannelUpDown.SetBinding(TextBox.TextProperty, dmxChannelBinding);
+            //DmxValueUpDown.SetBinding(TextBox.TextProperty, dmxValueBinding);
         }
 
         public event EventHandler? DeleteLinkClicked;

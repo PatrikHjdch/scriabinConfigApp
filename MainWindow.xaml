@@ -5,161 +5,120 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:scriabinWPF" d:DataContext="{d:DesignInstance Type=local:MainViewModel}"
         mc:Ignorable="d"
-        Title="Configurator" Height="800" Width="1280">
-    <Window.Resources>
-        <Style x:Key="FocusVisual">
-            <Setter Property="Control.Template">
-                <Setter.Value>
-                    <ControlTemplate>
-                        <Rectangle Margin="2" StrokeDashArray="1 2" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" SnapsToDevicePixels="true" StrokeThickness="1"/>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-        <SolidColorBrush x:Key="Button.Static.Background" Color="#FF333333"/>
-        <SolidColorBrush x:Key="Button.Static.Border" Color="#FFFFFFFF"/>
-        <SolidColorBrush x:Key="Button.MouseOver.Background" Color="#FF222222"/>
-        <SolidColorBrush x:Key="Button.MouseOver.Border" Color="#FF666666"/>
-        <SolidColorBrush x:Key="Button.Pressed.Background" Color="#FF111111"/>
-        <SolidColorBrush x:Key="Button.Pressed.Border" Color="#FF555555"/>
-        <SolidColorBrush x:Key="Button.Disabled.Background" Color="#FFF4F4F4"/>
-        <SolidColorBrush x:Key="Button.Disabled.Border" Color="#FFADB2B5"/>
-        <SolidColorBrush x:Key="Button.Disabled.Foreground" Color="#FF838383"/>
-        <Style x:Key="AddLinkButtonStyle" TargetType="{x:Type Button}">
-            <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
-            <Setter Property="Background" Value="{StaticResource Button.Static.Background}"/>
-            <Setter Property="BorderBrush" Value="{StaticResource Button.Static.Border}"/>
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="HorizontalContentAlignment" Value="Center"/>
-            <Setter Property="VerticalContentAlignment" Value="Center"/>
-            <Setter Property="Padding" Value="1"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type Button}">
-                        <Border x:Name="border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" SnapsToDevicePixels="true">
-                            <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsDefaulted" Value="true">
-                                <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
-                            </Trigger>
-                            <Trigger Property="IsMouseOver" Value="true">
-                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.MouseOver.Background}"/>
-                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.MouseOver.Border}"/>
-                            </Trigger>
-                            <Trigger Property="IsPressed" Value="true">
-                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.Pressed.Background}"/>
-                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Pressed.Border}"/>
-                            </Trigger>
-                            <Trigger Property="IsEnabled" Value="false">
-                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.Disabled.Background}"/>
-                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Disabled.Border}"/>
-                                <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource Button.Disabled.Foreground}"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-    </Window.Resources>
+        Title="Configurator" Height="600" Width="1280">
 
-
-    <Grid x:Name="MainGrid" Background="#090910">
+    <Grid x:Name="MainGrid">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <Menu x:Name="ToolbarMenu"  Height="18" VerticalAlignment="Top" Background="#1E1E1E" Foreground="White" Grid.Row="0">
-            <MenuItem x:Name="FileMenuItem" Header="_File">
-                <MenuItem x:Name="NewFileMenuItem"  Header="_New" Click="NewFile_Click" Foreground="Black"/>
-                <MenuItem x:Name="OpenFileMenuItem" Header="_Open" Click="OpenFile_Click" Foreground="Black"/>
-                <MenuItem x:Name="SaveFileMenuItem" Header="_Save" Click="SaveFile_Click" Foreground="Black"/>
-                <Separator/>
-                <MenuItem x:Name="ExitMenuItem" Header="E_xit" Click="Exit_Click" Foreground="Black"/>
-            </MenuItem>
-            <MenuItem x:Name="HelpMenuItem" Header="_Help">
-                <MenuItem x:Name="AboutMenuItem" Header="_About" Click="About_Click" Foreground="Black"/>
-            </MenuItem>
-        </Menu>
-        <Grid x:Name="Content" Grid.Row="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="200px"/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-            <ScrollViewer x:Name="LinkScrollViewer" Grid.Column="0" Grid.Row="0">
-                <StackPanel x:Name="LinkStackPanel" Margin="8" >
-                    <ItemsControl ItemsSource="{Binding Links}">
-                        <ItemsControl.Resources>
-                            <DataTemplate DataType="{x:Type local:NoteLinkModel}">
-                                <local:NoteLinkView DeleteLinkClicked="OnDeleteLinkClicked" Padding="2"/>
+        <TabControl x:Name="MainTabControl" TabStripPlacement="Left">
+            <TabItem x:Name="MapConfigTabItem">
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <Image x:Name="MapConfigClipart" Source="/assets/notelink.png" Width="24" Margin="4"/>
+                        <TextBlock x:Name="MapConfigTabName" Text="Map Configuration" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </TabItem.Header>
+                <Grid x:Name="MapConfigContent">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <TabControl x:Name="MapProfileTabControl" TabStripPlacement="Top" ItemsSource="{Binding MapProfiles}" SelectedIndex="0">
+                        <TabControl.ItemContainerStyle>
+                            <Style TargetType="TabItem">
+                                <Setter Property="Header" Value="{Binding Name}"/>
+                            </Style>
+                        </TabControl.ItemContainerStyle>
+                        <TabControl.ContentTemplate>
+                            <DataTemplate>
+                                <local:MapProfileView/>
                             </DataTemplate>
-                            <DataTemplate DataType="{x:Type local:NoteOnLinkModel}">
-                                <local:NoteOnLinkView DeleteLinkClicked="OnDeleteLinkClicked" Padding="2"/>
-                            </DataTemplate>
-                            <DataTemplate DataType="{x:Type local:NoteOffLinkModel}">
-                                <local:NoteOffLinkView DeleteLinkClicked="OnDeleteLinkClicked" Padding="2"/>
-                            </DataTemplate>
-                            <DataTemplate DataType="{x:Type local:ControlChangeLinkModel}">
-                                <local:ControlChangeLinkView DeleteLinkClicked="OnDeleteLinkClicked" Padding="2"/>
-                            </DataTemplate>
-                        </ItemsControl.Resources>
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate DataType="{x:Type local:NoteLinkModel}">
-                                <ContentControl Content="{Binding}" />
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                    <Grid x:Name="AddLinkButtonHolder" >
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0">
-                            <Button x:Name="AddNoteLinkButton" Style="{DynamicResource AddLinkButtonStyle}" Content="Add Note Link" Height="78" Width="150" Margin="4" Click="AddNoteLink_Click" Padding="2"/>
-                            <Button x:Name="AddNoteOnLinkButton" Style="{DynamicResource AddLinkButtonStyle}" Content="Add Note On Link" Height="78" Width="150" Margin="4" Click="AddNoteOnLink_Click" Padding="2"/>
-                            <Button x:Name="AddNoteOffLinkButton" Style="{DynamicResource AddLinkButtonStyle}" Content="Add Note Off Link" Height="78" Width="150" Margin="4" Click="AddNoteOffLink_Click" Padding="2"/>
-                            <Button x:Name="AddControlChangeLinkButton" Style="{DynamicResource AddLinkButtonStyle}" Content="Add Control Change Link" Height="78" Width="150" Margin="4" Click="AddControlChangeLink_Click" Padding="2"/>
-                        </StackPanel>
+                        </TabControl.ContentTemplate>
+                    </TabControl>
+                </Grid>
+            </TabItem>
+
+            <TabItem x:Name="LogTabItem">
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Width="Auto">
+                        <Image x:Name="LogClipart" Source="/assets/notelink.png" Width="24" Margin="4" HorizontalAlignment="Left"/>
+                        <TextBlock x:Name="LogTabName" Text="Event Log" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </TabItem.Header>
+                <Grid x:Name="LogTabContent">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid x:Name="LogScrollControlGrid">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Button x:Name="LogFolderOpenButton" Click="LogFolderOpen_Click" Content="Open Folder" Grid.Column="2"/>
                     </Grid>
+                    <ScrollViewer x:Name="LogScrollViewer" Grid.Row="1" Grid.Column="0" ScrollChanged="LogScrollViewer_ScrollChanged">
+                        <TextBox x:Name="LogTextBox" IsReadOnly="True" Text="{Binding LogContents, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    </ScrollViewer>
+                </Grid>
+            </TabItem>
+        </TabControl>
+        <Grid x:Name="Controls" Background="#1E1E1E" Grid.Column="1" Grid.Row="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <StackPanel Orientation="Vertical" Grid.Row="0">
+                <StackPanel x:Name="ComPortHolder" Orientation="Vertical">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Content="COM Port:" Foreground="White" Margin="8" VerticalAlignment="Top" Grid.Column="0"/>
+                        <Button x:Name="RefreshComPortsButton" Content="Refresh" Style="{DynamicResource AddLinkButtonStyle}" Height="25" Width="60" Margin="8" VerticalAlignment="Center" HorizontalAlignment="Right" Click="RefreshComPorts_Click" Grid.Column="2"/>
+                    </Grid>
+                    <ComboBox x:Name="ComPortComboBox" Grid.Column="0" Grid.Row="0" Margin="8" Height="25" VerticalAlignment="Top" 
+                                ItemsSource="{Binding AvailableComPorts}"
+                                SelectedItem="{Binding SelectedComPort, Mode=TwoWay}"
+                                Foreground="Black"/>
                 </StackPanel>
-            </ScrollViewer>
-            <Grid x:Name="Controls" Background="#1E1E1E" Grid.Column="1" Grid.Row="0">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
-                <StackPanel Orientation="Vertical" Grid.Row="0">
-                    <StackPanel x:Name="ComPortHolder" Orientation="Vertical">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="Auto"/>
-                            </Grid.ColumnDefinitions>
-                            <Label Content="COM Port:" Foreground="White" Margin="8" VerticalAlignment="Top" Grid.Column="0"/>
-                            <Button x:Name="RefreshComPortsButton" Content="Refresh" Style="{DynamicResource AddLinkButtonStyle}" Height="25" Width="60" Margin="8" VerticalAlignment="Center" HorizontalAlignment="Right" Click="RefreshComPorts_Click" Grid.Column="2"/>
-                        </Grid>
-                        <ComboBox x:Name="ComPortComboBox" Grid.Column="0" Grid.Row="0" Margin="8" Height="25" VerticalAlignment="Top" 
-                                  ItemsSource="{Binding AvailableComPorts}"
-                                  SelectedItem="{Binding SelectedComPort}"
-                                  Foreground="Black"
-                                  SelectionChanged="UpdateComPort"/>
-                    </StackPanel>
-                    <StackPanel x:Name="ConnectionHolder" Orientation="Vertical" HorizontalAlignment="Center" Margin="8" Grid.Row="1">
-                        <Button x:Name="TestButton" Content="Test Connection" Style="{DynamicResource AddLinkButtonStyle}" Height="30" Width="120" Margin="0" Click="TestConnection_Click"/>
-                        <Label x:Name="ConnectionStatusLabel" Content="{Binding ConnectionStatus}" Foreground="White" VerticalAlignment="Center" Margin="0"/>
-                    </StackPanel>
-                    <Rectangle Height="1" Fill="LightGray" Margin="8"/>
+                <StackPanel x:Name="ConnectionHolder" Orientation="Vertical" HorizontalAlignment="Center" Margin="8" Grid.Row="1">
+                    <Button x:Name="ConnectButton" Content="{Binding ConnectButtonLabel}" IsEnabled="{Binding ConnectButtonEnabled}" Style="{DynamicResource AddLinkButtonStyle}" Height="30" Width="120" Margin="0" Click="Connect_Click"/>
+                    <Label x:Name="ConnectionStatusLabel" Content="{Binding ConnectionStatus}" Foreground="White" VerticalAlignment="Center" Margin="0"/>
+                    <Label x:Name="ConnectinoPingLabel" Content="{Binding CommPing}" Foreground="White" VerticalAlignment="Center" Margin="0"/>
                 </StackPanel>
-                <StackPanel x:Name="UploadDownloadHolder" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Row="2">
-                    <Button x:Name="UploadConfigButton" Content="Upload Config" Style="{DynamicResource AddLinkButtonStyle}" Height="30" Width="100" Margin="8" Click="UploadConfig_Click"/>
-                    <Button x:Name="DownloadConfigButton" Content="Download Config" Style="{DynamicResource AddLinkButtonStyle}" Height="30" Width="100" Margin="8" Click="DownloadConfig_Click"/>
-                </StackPanel>
-            </Grid>
+                <Rectangle Height="1" Fill="LightGray" Margin="8"/>
+            </StackPanel>
+            <StackPanel x:Name="UploadDownloadHolder" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Row="2">
+                <Button x:Name="UploadConfigButton" Content="Upload Config" Style="{DynamicResource AddLinkButtonStyle}" IsEnabled="{Binding UploadButtonEnabled}" Height="30" Width="100" Margin="8" Click="UploadConfig_Click"/>
+                <Button x:Name="DownloadConfigButton" Content="Download Config" Style="{DynamicResource AddLinkButtonStyle}" Height="30" Width="100" Margin="8" Click="DownloadConfig_Click"/>
+            </StackPanel>
         </Grid>
+        <StatusBar x:Name="StatusBar" Grid.ColumnSpan="2" Grid.Row="2" Height="24" HorizontalAlignment="Right">
+            <StatusBarItem Width="24">
+
+            </StatusBarItem>
+            <StatusBarItem>
+                Scriabin by Patrik Hajdúch
+            </StatusBarItem>
+            <StatusBarItem>
+                <ProgressBar Width="240" Height="20" Foreground="Green" Value="100"/>
+            </StatusBarItem>
+        </StatusBar>
     </Grid>
 </Window>

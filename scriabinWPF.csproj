@@ -9,23 +9,23 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="assets\controlchangelink.png" />
-    <None Remove="assets\notelink.png" />
-    <None Remove="assets\noteofflink.png" />
-    <None Remove="assets\noteonlink.png" />
+    <None Remove="Assets\controlchangelink.png" />
+    <None Remove="Assets\notelink.png" />
+    <None Remove="Assets\noteofflink.png" />
+    <None Remove="Assets\noteonlink.png" />
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="assets\controlchangelink.png">
+    <Resource Include="Assets\controlchangelink.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="assets\notelink.png">
+    <Resource Include="Assets\notelink.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="assets\noteofflink.png">
+    <Resource Include="Assets\noteofflink.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="assets\noteonlink.png">
+    <Resource Include="Assets\noteonlink.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>
@@ -33,6 +33,12 @@
   <ItemGroup>
     <PackageReference Include="Prism.Core" Version="9.0.537" />
     <PackageReference Include="System.IO.Ports" Version="9.0.11" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Model\" />
+    <Folder Include="ViewModel\" />
+    <Folder Include="View\" />
   </ItemGroup>
 
 </Project>
