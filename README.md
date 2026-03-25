@@ -1,2 +1,5 @@
-## \[EN\] A desktop application for configuring the Scriabin project device, part of my master's thesis. Currently a work-in-progress.
-## \[CZ\] Dektopová aplikace pro konfiguraci zařízení projektu Scriabin, součást mé diplomové práce. V současnosti rozpracované.
+# Scriabin Config App
+[![en](https://img.shields.io/badge/lang-en-red.svg)](https://github.com/PatrikHjdch/scriabinConfigApp/README.md)
+[![cs](https://img.shields.io/badge/lang-cs-red.svg)](https://github.com/PatrikHjdch/scriabinConfigApp/README.cs.md)
+## My master's thesis project
+A WPF (.NET) desktop application for configuring the [Scriabin MIDI to DMX converter](https://github.com/PatrikHjdch/scriabin).
