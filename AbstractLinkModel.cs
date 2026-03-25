@@ -6,6 +6,13 @@ using System.Threading.Tasks;
 
 namespace scriabinWPF
 {
+    enum LinkType
+    {
+        NOTE_LINK = (byte)0,
+        NOTE_ON = (byte)1,
+        NOTE_OFF = (byte)2,
+        CONTROL_CHANGE = (byte)3
+    }
     public abstract class AbstractLinkModel
     {
         public byte MidiChannel { get; set; } // 1-16
@@ -20,5 +27,6 @@ namespace scriabinWPF
         }
         public abstract byte[] Serialize();
         internal abstract byte GetLinkType();
+        public abstract AbstractLinkModel Copy();
     }
 }

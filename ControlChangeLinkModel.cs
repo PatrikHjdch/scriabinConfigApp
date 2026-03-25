@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace scriabinWPF
 {
-    class ControlChangeLinkModel : AbstractLinkModel
+    public class ControlChangeLinkModel : AbstractLinkModel
     {
         public ControlChangeLinkModel() : base() { }
 
@@ -20,7 +20,19 @@ namespace scriabinWPF
         }
         internal override byte GetLinkType()
         {
-            return 3;
+            return (byte)LinkType.CONTROL_CHANGE;
         }
+
+        public override ControlChangeLinkModel Copy()
+        {
+            ControlChangeLinkModel copy = new()
+            {
+                MidiChannel = MidiChannel,
+                Pitch = Pitch,
+                DmxChannel = DmxChannel
+            };
+            return copy;
+        }
+
     }
 }
