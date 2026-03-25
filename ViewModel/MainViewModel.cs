@@ -3,8 +3,9 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.IO.Ports;
 using System.Windows.Controls.Primitives;
+using scriabinWPF.Model;
 
-namespace scriabinWPF
+namespace scriabinWPF.ViewModel
 {
     public class MainViewModel : INotifyPropertyChanged
     {

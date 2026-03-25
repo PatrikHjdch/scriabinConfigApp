@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls.Primitives;
 
-namespace scriabinWPF
+namespace scriabinWPF.Model
 {
     static class CustomStringBuilder
     {

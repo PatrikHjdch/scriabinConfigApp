@@ -1,7 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 
-namespace scriabinWPF
+namespace scriabinWPF.Model
 {
     public class MainModel
     {

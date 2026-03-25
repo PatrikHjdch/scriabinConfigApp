@@ -35,10 +35,4 @@
     <PackageReference Include="System.IO.Ports" Version="9.0.11" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Model\" />
-    <Folder Include="ViewModel\" />
-    <Folder Include="View\" />
-  </ItemGroup>
-
 </Project>

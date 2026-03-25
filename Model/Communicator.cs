@@ -6,7 +6,7 @@ using System.Timers;
 using System.ComponentModel;
 using System.Diagnostics;
 
-namespace scriabinWPF
+namespace scriabinWPF.Model
 {
     enum CommunicatorState
     {
@@ -68,7 +68,7 @@ namespace scriabinWPF
             State = CommunicatorState.OFF;
         }
 
-        private void RequestPing(Object? source, ElapsedEventArgs e)
+        private void RequestPing(object? source, ElapsedEventArgs e)
         {
             PingRequest++;
         }
@@ -317,7 +317,7 @@ namespace scriabinWPF
                     if (type < link.GetLinkType())
                     {
                         logger.Log("Updating link type to " + link.GetLinkType());
-                        outgoingData = [Constants.OUT_TYPE, (byte)link.GetLinkType()];
+                        outgoingData = [Constants.OUT_TYPE, link.GetLinkType()];
                         SendMessage(outgoingData);
                         logger.Log("Awaiting acknowledgment...");
                         AwaitAcknowledgment();
@@ -328,7 +328,7 @@ namespace scriabinWPF
                     if (pitch < link.Pitch)
                     {
                         logger.Log("Updating pitch to " + link.Pitch);
-                        outgoingData = [Constants.OUT_PITCH, (byte)link.Pitch ];
+                        outgoingData = [Constants.OUT_PITCH, link.Pitch ];
                         SendMessage(outgoingData);
                         logger.Log("Awaiting acknowledgment...");
                         AwaitAcknowledgment();
@@ -420,7 +420,7 @@ namespace scriabinWPF
                 SendMessage([Constants.OUT_HELLO]);
                 byte response = (byte)ComPort.ReadByte();
                 sw.Stop();
-                PingValue = (int)(sw.Elapsed.TotalMilliseconds);
+                PingValue = (int)sw.Elapsed.TotalMilliseconds;
                 if (response == Constants.IN_HELLO)
                 {
                     return 0;
@@ -475,7 +475,7 @@ namespace scriabinWPF
                 log.Log("Opening COM port " + ComPort.PortName + "...");
                 Open();
                 log.Log("Opened successfully.");
-            } catch (System.InvalidOperationException e)
+            } catch (InvalidOperationException e)
             {
                 log.Log("Invalid Operation: " + e);
                 MessageBox.Show("Invalid Operation: " + e, "Error", MessageBoxButton.OK);

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace scriabinWPF
+namespace scriabinWPF.Model
 {
     public class NoteLinkModel : AbstractLinkModel
     {

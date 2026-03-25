@@ -4,14 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace scriabinWPF
+namespace scriabinWPF.Model
 {
     enum LinkType
     {
-        NOTE_LINK = (byte)0,
-        NOTE_ON = (byte)1,
-        NOTE_OFF = (byte)2,
-        CONTROL_CHANGE = (byte)3
+        NOTE_LINK = 0,
+        NOTE_ON = 1,
+        NOTE_OFF = 2,
+        CONTROL_CHANGE = 3
     }
     public abstract class AbstractLinkModel
     {

@@ -4,15 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace scriabinWPF
+namespace scriabinWPF.Model
 {
-    public class NoteOffLinkModel : AbstractLinkModel
+    public class ControlChangeLinkModel : AbstractLinkModel
     {
-        public byte DmxValue { get; set; } // 0-255
-        public NoteOffLinkModel() : base()
-        {
-            DmxValue = 0;
-        }
+        public ControlChangeLinkModel() : base() { }
 
         public override byte[] Serialize()
         {
@@ -20,24 +16,23 @@ namespace scriabinWPF
                 0x10,
                 (byte)(DmxChannel >> 8 & 0xFF),
                 (byte)(DmxChannel & 0xFF),
-                DmxValue
                 ];
         }
         internal override byte GetLinkType()
         {
-            return (byte)LinkType.NOTE_OFF;
+            return (byte)LinkType.CONTROL_CHANGE;
         }
 
-        public override NoteOffLinkModel Copy()
+        public override ControlChangeLinkModel Copy()
         {
-            NoteOffLinkModel copy = new()
+            ControlChangeLinkModel copy = new()
             {
                 MidiChannel = MidiChannel,
                 Pitch = Pitch,
-                DmxChannel = DmxChannel,
-                DmxValue = DmxValue
+                DmxChannel = DmxChannel
             };
             return copy;
         }
+
     }
 }

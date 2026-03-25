@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using scriabinWPF.ViewModel;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 

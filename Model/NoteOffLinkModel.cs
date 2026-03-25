@@ -3,46 +3,39 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Data;
 
-namespace scriabinWPF
+namespace scriabinWPF.Model
 {
-    public class NoteOnLinkModel : AbstractLinkModel
+    public class NoteOffLinkModel : AbstractLinkModel
     {
         public byte DmxValue { get; set; } // 0-255
-        public bool UsesVelocity { get; set; } // if true, use note velocity for DmxValueOn
-        public NoteOnLinkModel() : base()
+        public NoteOffLinkModel() : base()
         {
-            DmxValue = 255;
-            UsesVelocity = false;
+            DmxValue = 0;
         }
 
         public override byte[] Serialize()
         {
-            return
-            [
+            return [
                 0x10,
                 (byte)(DmxChannel >> 8 & 0xFF),
                 (byte)(DmxChannel & 0xFF),
-                UsesVelocity ? (byte)1 : (byte)0,
                 DmxValue
-            ];
+                ];
         }
-
         internal override byte GetLinkType()
         {
-            return (byte)LinkType.NOTE_ON;
+            return (byte)LinkType.NOTE_OFF;
         }
 
-        public override NoteOnLinkModel Copy()
+        public override NoteOffLinkModel Copy()
         {
-            NoteOnLinkModel copy = new()
+            NoteOffLinkModel copy = new()
             {
                 MidiChannel = MidiChannel,
                 Pitch = Pitch,
                 DmxChannel = DmxChannel,
-                DmxValue = DmxValue,
-                UsesVelocity = UsesVelocity
+                DmxValue = DmxValue
             };
             return copy;
         }

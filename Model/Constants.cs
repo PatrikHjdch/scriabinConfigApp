@@ -6,7 +6,7 @@ using System.Security.Cryptography.Xml;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace scriabinWPF
+namespace scriabinWPF.Model
 {
     static class Constants
     {

@@ -3,7 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:scriabinWPF" d:DataContext="{d:DesignInstance Type=local:MapProfileViewModel}"
+             xmlns:local="clr-namespace:scriabinWPF" xmlns:vm="clr-namespace:scriabinWPF.ViewModel"
+             d:DataContext="{d:DesignInstance Type=vm:MapProfileViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     
@@ -16,21 +17,21 @@
                 </StackPanel>
                 <ItemsControl ItemsSource="{Binding Links}">
                     <ItemsControl.Resources>
-                        <DataTemplate DataType="{x:Type local:NoteLinkViewModel}">
+                        <DataTemplate DataType="{x:Type vm:NoteLinkViewModel}">
                             <local:NoteLinkView DeleteLinkClicked="OnDeleteLinkClicked" Padding="2"/>
                         </DataTemplate>
-                        <DataTemplate DataType="{x:Type local:NoteOnLinkViewModel}">
+                        <DataTemplate DataType="{x:Type vm:NoteOnLinkViewModel}">
                             <local:NoteOnLinkView DeleteLinkClicked="OnDeleteLinkClicked" Padding="2"/>
                         </DataTemplate>
-                        <DataTemplate DataType="{x:Type local:NoteOffLinkViewModel}">
+                        <DataTemplate DataType="{x:Type vm:NoteOffLinkViewModel}">
                             <local:NoteOffLinkView DeleteLinkClicked="OnDeleteLinkClicked" Padding="2"/>
                         </DataTemplate>
-                        <DataTemplate DataType="{x:Type local:ControlChangeLinkViewModel}">
+                        <DataTemplate DataType="{x:Type vm:ControlChangeLinkViewModel}">
                             <local:ControlChangeLinkView DeleteLinkClicked="OnDeleteLinkClicked" Padding="2"/>
                         </DataTemplate>
                     </ItemsControl.Resources>
                     <ItemsControl.ItemTemplate>
-                        <DataTemplate DataType="{x:Type local:AbstractLinkViewModel}">
+                        <DataTemplate DataType="{x:Type vm:AbstractLinkViewModel}">
                             <ContentControl Content="{Binding}" />
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>

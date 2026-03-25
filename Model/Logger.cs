@@ -9,7 +9,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace scriabinWPF
+namespace scriabinWPF.Model
 {
     internal class Logger : INotifyPropertyChanged
     {
@@ -54,13 +54,13 @@ namespace scriabinWPF
                     Log("[MIDI]\t\t" + CustomStringBuilder.ParseMidiMessage(msg, 1));
                     break;
                 case Constants.IN_EVENT_DMX_CHANGED:
-                    Log("[DMX]\t\t[" + ((((int)msg[1]) << 8) + msg[2]).ToString() + "]: " + msg[3].ToString());
+                    Log("[DMX]\t\t[" + ((msg[1] << 8) + msg[2]).ToString() + "]: " + msg[3].ToString());
                     break;
                 case Constants.IN_EVENT_PROFILE_CHANGED:
                     Log("[PROFILE]\t" + msg[1].ToString());
                     break;
                 case Constants.IN_EVENT_LINK_ADDRESSES_READ:
-                    Log("[DEBUG]\tADDRESSES: " + ((((int)msg[1]) << 8) + msg[2]).ToString() + " " + ((((int)msg[3]) << 8) + msg[4]).ToString());
+                    Log("[DEBUG]\tADDRESSES: " + ((msg[1] << 8) + msg[2]).ToString() + " " + ((msg[3] << 8) + msg[4]).ToString());
                     break;
                 default:
                     string s = "[UNKNOWN]";
